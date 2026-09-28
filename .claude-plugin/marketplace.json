@@ -1,0 +1,26 @@
+{
+  "name": "responder",
+  "owner": {
+    "name": "Ynon Perek",
+    "email": "ynon@hey.com"
+  },
+  "metadata": {
+    "description": "Plugins for the Responder / Rav Messer (רב מסר) email-marketing platform.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "responder",
+      "source": "./",
+      "description": "Offline Responder / Rav Messer knowledge base skill plus the hosted Responder MCP server.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ynon Perek",
+        "email": "ynon@hey.com"
+      },
+      "homepage": "https://responder.co.il",
+      "repository": "https://github.com/ravmesser/responder-claude-plugin",
+      "keywords": ["responder", "rav-messer", "email-marketing", "hebrew", "mcp"]
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+name: Refresh and release
+
+# Re-crawls the help center into skills/responder-knowledge/references/articles.
+# When the corpus changed, bumps the plugin's patch version, commits to main (the
+# branch the Claude plugin directory tracks) and publishes the archives as a
+# GitHub release. A manual run can force a release without corpus changes.
+
+on:
+  schedule:
+    - cron: "0 3 * * 0" # Sundays 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      force_release:
+        description: "Publish a release even if the corpus did not change"
+        required: false
+        default: false
+        type: boolean
+      delay:
+        description: "Seconds between help-center requests"
+        required: false
+        default: "0.15"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install crawler dependencies
+        run: pip install -r skills/responder-knowledge/scripts/requirements.txt
+
+      - name: Crawl the help center
+        run: python skills/responder-knowledge/scripts/sync_articles.py --delay "${{ inputs.delay || '0.15' }}"
+
+      # The crawler stamps the run date into INDEX.md and SKILL.md; a diff made
+      # only of those lines is not a content change.
+      - name: Detect changes
+        id: changes
+        run: |
+          git add -A skills
+          date_lines='(Generated from the official Responder knowledge base at|articles\*\*, refreshed) [0-9]{4}-[0-9]{2}-[0-9]{2}'
+          if ! git diff --cached -U0 -I "$date_lines" | grep -q '^@@'; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --cached --stat | tail -1
+          fi
+
+      # Claude Code only offers an update when the manifest version changes.
+      - name: Bump the patch version
+        if: steps.changes.outputs.changed == 'true'
+        id: version
+        run: |
+          version="$(python - <<'PY'
+          import json
+
+          manifest = ".claude-plugin/plugin.json"
+          plugin = json.load(open(manifest))
+          major, minor, patch = plugin["version"].split(".")
+          version = f"{major}.{minor}.{int(patch) + 1}"
+          plugin["version"] = version
+          with open(manifest, "w") as f:
+              json.dump(plugin, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+
+          path = ".claude-plugin/marketplace.json"
+          marketplace = json.load(open(path))
+          for entry in marketplace["plugins"]:
+              if entry["name"] == plugin["name"]:
+                  entry["version"] = version
+          with open(path, "w") as f:
+              json.dump(marketplace, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+
+          print(version)
+          PY
+          )"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Commit to main
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
+          git add -A skills .claude-plugin
+          git commit -m "Refresh help-center corpus (v${{ steps.version.outputs.version }})"
+          git push origin HEAD:main
+
+      - name: Build the archives
+        if: steps.changes.outputs.changed == 'true' || inputs.force_release
+        run: ./script/build.sh
+
+      # Both archives carry Hebrew article filenames. An entry stored without
+      # the UTF-8 name flag is rejected on upload with "Zip file contains path
+      # with invalid characters", so fail here rather than shipping it.
+      - name: Verify archive filename encoding
+        if: steps.changes.outputs.changed == 'true' || inputs.force_release
+        run: |
+          python - <<'PY'
+          import sys
+          import unicodedata
+          from zipfile import ZipFile
+
+          failed = False
+          for path in ("dist/responder-plugin.zip", "dist/responder-knowledge-skill.zip"):
+              with ZipFile(path) as archive:
+                  infos = archive.infolist()
+                  if archive.testzip() is not None:
+                      print(f"{path}: corrupt entry", file=sys.stderr)
+                      failed = True
+                  for info in infos:
+                      name = info.filename
+                      if any(ord(c) > 127 for c in name) and not info.flag_bits & 0x800:
+                          print(f"{path}: missing UTF-8 flag on {name}", file=sys.stderr)
+                          failed = True
+                      if unicodedata.normalize("NFC", name) != name:
+                          print(f"{path}: name is not NFC-normalized: {name}", file=sys.stderr)
+                          failed = True
+              print(f"{path}: {len(infos)} entries OK")
+
+          sys.exit(1 if failed else 0)
+          PY
+
+      - name: Publish the release
+        if: steps.changes.outputs.changed == 'true' || inputs.force_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(python -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')"
+          tag="v$version-$(date -u +%Y%m%d-%H%M)"
+          sha="$(git rev-parse HEAD)"
+          articles="$(find skills/responder-knowledge/references/articles -name '*.md' | wc -l | tr -d ' ')"
+
+          notes="$(cat <<EOF
+          Responder plugin \`$version\`, built from \`${sha:0:7}\`.
+
+          | Asset | Install |
+          | --- | --- |
+          | \`responder-plugin.zip\` | Plugin (knowledge skill + \`responderai\` MCP server). Upload at [claude.ai/customize/plugins](https://claude.ai/customize/plugins), or run \`claude --plugin-dir responder-plugin.zip\`. |
+          | \`responder-knowledge-skill.zip\` | Skill only, for [claude.ai/customize](https://claude.ai/customize) → Skills. |
+
+          Corpus: $articles articles, crawled from the help center on this run.
+
+          The MCP server uses OAuth; authorize it with \`/mcp\` after installing.
+          EOF
+          )"
+
+          gh release create "$tag" \
+            dist/responder-plugin.zip \
+            dist/responder-knowledge-skill.zip \
+            --title "Responder plugin $tag" \
+            --notes "$notes" \
+            --target "$sha"
+
+          {
+            echo "### Released [\`$tag\`]($(gh release view "$tag" --json url --jq .url))"
+            echo
+            echo "- \`responder-plugin.zip\` — $(du -h dist/responder-plugin.zip | cut -f1)"
+            echo "- \`responder-knowledge-skill.zip\` — $(du -h dist/responder-knowledge-skill.zip | cut -f1)"
+            echo "- $articles articles in the corpus"
+          } >> "$GITHUB_STEP_SUMMARY"

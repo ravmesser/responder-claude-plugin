@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "responderai": {
+      "type": "http",
+      "url": "https://ai.responder.live/mcp"
+    }
+  }
+}

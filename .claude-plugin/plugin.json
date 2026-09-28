@@ -1,0 +1,18 @@
+{
+  "name": "responder",
+  "description": "Responder / Rav Messer (רב מסר) email-marketing platform: offline knowledge base skill plus the hosted MCP server for managing lists, series, emails, forms and landing pages.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Ynon Perek",
+    "email": "ynon@hey.com"
+  },
+  "homepage": "https://responder.co.il",
+  "keywords": [
+    "responder",
+    "rav-messer",
+    "email-marketing",
+    "hebrew",
+    "mcp"
+  ],
+  "repository": "https://github.com/ravmesser/responder-claude-plugin"
+}
