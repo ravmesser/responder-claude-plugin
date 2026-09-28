@@ -22,8 +22,9 @@ cd "$root"
 # strict readers decode the bytes as CP437 and reject the archive with
 # "Zip file contains path with invalid characters". zipfile sets the flag.
 mkdir -p dist
-python3 script/build_plugin_zip.py dist/responder-plugin.zip responder \
-  .claude-plugin/plugin.json .mcp.json README.md skills/responder-knowledge
+python3 script/build_plugin_zip.py dist/responder-plugin.zip rav-messer \
+  .claude-plugin/plugin.json .claude-plugin/icon.svg .mcp.json README.md LICENSE \
+  skills/responder-knowledge
 
 if [ -f skills/responder-knowledge.zip ]; then
   cp skills/responder-knowledge.zip dist/responder-knowledge-skill.zip

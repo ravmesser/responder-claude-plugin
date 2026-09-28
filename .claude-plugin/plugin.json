@@ -1,5 +1,5 @@
 {
-  "name": "responder",
+  "name": "rav-messer",
   "description": "Responder / Rav Messer (רב מסר) email-marketing platform: offline knowledge base skill plus the hosted MCP server for managing lists, series, emails, forms and landing pages.",
   "version": "1.0.0",
   "author": {
@@ -14,5 +14,6 @@
     "hebrew",
     "mcp"
   ],
-  "repository": "https://github.com/ravmesser/responder-claude-plugin"
+  "repository": "https://github.com/ravmesser/responder-claude-plugin",
+  "privacyPolicyUrl": "https://www.responder.co.il/%d7%9e%d7%93%d7%99%d7%a0%d7%99%d7%95%d7%aa-%d7%a4%d7%a8%d7%98%d7%99%d7%95%d7%aa/"
 }

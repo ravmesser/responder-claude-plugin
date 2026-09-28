@@ -17,7 +17,7 @@ In Claude Code:
 
 ```
 /plugin marketplace add ravmesser/responder-claude-plugin
-/plugin install responder@responder
+/plugin install rav-messer@rav-messer
 ```
 
 Or download `responder-plugin.zip` from the [latest release][releases] and upload
@@ -34,10 +34,11 @@ complete the browser login with your Responder account. Skill-only usage (asking
 
 ## Layout
 
-The repository root is the plugin:
+The repository root is the `rav-messer` plugin:
 
 ```
 .claude-plugin/plugin.json       plugin manifest
+.claude-plugin/icon.svg          plugin icon
 .claude-plugin/marketplace.json  single-plugin marketplace pointing at ./
 .mcp.json                        responderai MCP server definition
 skills/responder-knowledge/      the skill
@@ -75,3 +76,7 @@ Do not hand-edit `references/articles/` or the block between
 `BEGIN GENERATED OFFLINE ARTICLE INDEX` and `END GENERATED OFFLINE ARTICLE INDEX`
 in `SKILL.md`; the next crawl replaces them. The other files in `references/` are
 curated and edited normally.
+
+## License
+
+Proprietary — see [LICENSE](LICENSE).

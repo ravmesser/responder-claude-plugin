@@ -1,6 +1,6 @@
 # Contributing
 
-The repository root is the `responder` Claude plugin. See README.md for the
+The repository root is the `rav-messer` Claude plugin. See README.md for the
 layout and the corpus refresh flow.
 
 - Never hand-edit `skills/responder-knowledge/references/articles/` or the generated

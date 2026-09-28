@@ -1,5 +1,5 @@
 {
-  "name": "responder",
+  "name": "rav-messer",
   "owner": {
     "name": "Ynon Perek",
     "email": "ynon@hey.com"
@@ -10,7 +10,7 @@
   },
   "plugins": [
     {
-      "name": "responder",
+      "name": "rav-messer",
       "source": "./",
       "description": "Offline Responder / Rav Messer knowledge base skill plus the hosted Responder MCP server.",
       "version": "1.0.0",
@@ -20,7 +20,13 @@
       },
       "homepage": "https://responder.co.il",
       "repository": "https://github.com/ravmesser/responder-claude-plugin",
-      "keywords": ["responder", "rav-messer", "email-marketing", "hebrew", "mcp"]
+      "keywords": [
+        "responder",
+        "rav-messer",
+        "email-marketing",
+        "hebrew",
+        "mcp"
+      ]
     }
   ]
 }
