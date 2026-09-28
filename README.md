@@ -44,7 +44,7 @@ The repository root is the `rav-messer` plugin:
 skills/responder-knowledge/      the skill
   references/*.md                curated topical references
   references/articles/           crawled help-center corpus (generated)
-  scripts/sync_articles.py       the crawler
+script/sync_articles.py          help-center crawler (repo tooling, not shipped)
 script/build.sh                  builds dist/*.zip and validates the manifests
 .github/workflows/refresh.yml    weekly crawl → commit → release
 ```
@@ -60,8 +60,8 @@ To do it locally:
 
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install -r skills/responder-knowledge/scripts/requirements.txt
-.venv/bin/python skills/responder-knowledge/scripts/sync_articles.py
+.venv/bin/pip install -r script/requirements.txt
+.venv/bin/python script/sync_articles.py
 ./script/build.sh
 ```
 

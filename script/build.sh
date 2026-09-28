@@ -5,7 +5,7 @@
 #   dist/responder-knowledge-skill.zip  the skill alone, for claude.ai/customize
 #
 # Run from anywhere after refreshing the corpus with
-# skills/responder-knowledge/scripts/sync_articles.py (which also writes the
+# script/sync_articles.py (which also writes the
 # skill archive this script copies).
 set -euo pipefail
 
@@ -13,7 +13,7 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
 [ -d skills/responder-knowledge/references/articles ] || {
-  echo "missing article corpus: run skills/responder-knowledge/scripts/sync_articles.py" >&2
+  echo "missing article corpus: run script/sync_articles.py" >&2
   exit 1
 }
 

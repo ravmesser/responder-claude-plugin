@@ -1,5 +1,9 @@
-#!/usr/bin/env python3
-"""Mirror the Responder knowledge base into this skill for offline use."""
+"""Mirror the Responder knowledge base into the skill for offline use.
+
+Maintenance tooling, not part of the plugin: run from the repo root with
+`python script/sync_articles.py`. It makes anonymous GET requests to the public
+help center only and reads no credentials or environment variables.
+"""
 
 from __future__ import annotations
 
@@ -359,7 +363,7 @@ def create_skill_zip(skill_dir: Path) -> Path:
 
 def main() -> int:
     args = parse_args()
-    skill_dir = Path(__file__).resolve().parents[1]
+    skill_dir = Path(__file__).resolve().parents[1] / "skills" / "responder-knowledge"
     try:
         article_categories = discover(args.base_url, args.delay)
         pages = []

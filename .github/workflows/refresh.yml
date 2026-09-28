@@ -42,10 +42,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install crawler dependencies
-        run: pip install -r skills/responder-knowledge/scripts/requirements.txt
+        run: pip install -r script/requirements.txt
 
       - name: Crawl the help center
-        run: python skills/responder-knowledge/scripts/sync_articles.py --delay "${{ inputs.delay || '0.15' }}"
+        run: python script/sync_articles.py --delay "${{ inputs.delay || '0.15' }}"
 
       # The crawler stamps the run date into INDEX.md and SKILL.md; a diff made
       # only of those lines is not a content change.
