@@ -1,6 +1,6 @@
 # Build outputs.
 /dist/
-/skills/*.zip
+/plugins/rav-messer/skills/*.zip
 __pycache__/
 .DS_Store
 /.venv*/

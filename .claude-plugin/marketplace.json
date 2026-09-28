@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "rav-messer",
-      "source": "./",
+      "source": "./plugins/rav-messer",
       "description": "Offline Responder / Rav Messer knowledge base skill plus the hosted Responder MCP server.",
       "version": "1.0.0",
       "author": {

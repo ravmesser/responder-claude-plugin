@@ -34,17 +34,16 @@ complete the browser login with your Responder account. Skill-only usage (asking
 
 ## Layout
 
-The repository root is the `rav-messer` plugin:
-
 ```
-.claude-plugin/plugin.json       plugin manifest
-.claude-plugin/icon.svg          plugin icon
-.claude-plugin/marketplace.json  single-plugin marketplace pointing at ./
-.mcp.json                        responderai MCP server definition
-skills/responder-knowledge/      the skill
-  references/*.md                curated topical references
-  references/articles/           crawled help-center corpus (generated)
-script/sync_articles.py          help-center crawler (repo tooling, not shipped)
+.claude-plugin/marketplace.json  marketplace listing the plugin below
+plugins/rav-messer/              the plugin (the only part that ships)
+  .claude-plugin/plugin.json     plugin manifest
+  .claude-plugin/icon.svg        plugin icon
+  .mcp.json                      responderai MCP server definition
+  skills/responder-knowledge/    the skill
+    references/*.md              curated topical references
+    references/articles/         crawled help-center corpus (generated)
+script/sync_articles.py          help-center crawler (repo tooling)
 script/build.sh                  builds dist/*.zip and validates the manifests
 .github/workflows/refresh.yml    weekly crawl → commit → release
 ```
@@ -67,7 +66,7 @@ python3 -m venv .venv
 
 The crawler starts at `https://support.responder.co.il/portal/he/kb/responderlive`,
 extracts every article with Trafilatura, atomically replaces
-`references/articles/` (a failed crawl leaves the previous corpus in place), writes
+`plugins/rav-messer/skills/responder-knowledge/references/articles/` (a failed crawl leaves the previous corpus in place), writes
 the catalog to `references/articles/INDEX.md`, updates the generated block in
 `SKILL.md`, and rewrites official article URLs in the curated references into links
 to the local copies. Use `--delay SECONDS` to change the delay between requests.

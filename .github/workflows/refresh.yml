@@ -1,6 +1,7 @@
 name: Refresh and release
 
-# Re-crawls the help center into skills/responder-knowledge/references/articles.
+# Re-crawls the help center into
+# plugins/rav-messer/skills/responder-knowledge/references/articles.
 # When the corpus changed, bumps the plugin's patch version, commits to main (the
 # branch the Claude plugin directory tracks) and publishes the archives as a
 # GitHub release. A manual run can force a release without corpus changes.
@@ -52,7 +53,7 @@ jobs:
       - name: Detect changes
         id: changes
         run: |
-          git add -A skills
+          git add -A plugins
           date_lines='(Generated from the official Responder knowledge base at|articles\*\*, refreshed) [0-9]{4}-[0-9]{2}-[0-9]{2}'
           if ! git diff --cached -U0 -I "$date_lines" | grep -q '^@@'; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -69,7 +70,7 @@ jobs:
           version="$(python - <<'PY'
           import json
 
-          manifest = ".claude-plugin/plugin.json"
+          manifest = "plugins/rav-messer/.claude-plugin/plugin.json"
           plugin = json.load(open(manifest))
           major, minor, patch = plugin["version"].split(".")
           version = f"{major}.{minor}.{int(patch) + 1}"
@@ -97,7 +98,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898+github-actions[bot]@users.noreply.github.com"
-          git add -A skills .claude-plugin
+          git add -A plugins .claude-plugin
           git commit -m "Refresh help-center corpus (v${{ steps.version.outputs.version }})"
           git push origin HEAD:main
 
@@ -141,10 +142,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          version="$(python -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')"
+          version="$(python -c 'import json; print(json.load(open("plugins/rav-messer/.claude-plugin/plugin.json"))["version"])')"
           tag="v$version-$(date -u +%Y%m%d-%H%M)"
           sha="$(git rev-parse HEAD)"
-          articles="$(find skills/responder-knowledge/references/articles -name '*.md' | wc -l | tr -d ' ')"
+          articles="$(find plugins/rav-messer/skills/responder-knowledge/references/articles -name '*.md' | wc -l | tr -d ' ')"
 
           notes="$(cat <<EOF
           Responder plugin \`$version\`, built from \`${sha:0:7}\`.

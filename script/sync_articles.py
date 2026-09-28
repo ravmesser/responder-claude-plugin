@@ -363,7 +363,7 @@ def create_skill_zip(skill_dir: Path) -> Path:
 
 def main() -> int:
     args = parse_args()
-    skill_dir = Path(__file__).resolve().parents[1] / "skills" / "responder-knowledge"
+    skill_dir = Path(__file__).resolve().parents[1] / "plugins" / "rav-messer" / "skills" / "responder-knowledge"
     try:
         article_categories = discover(args.base_url, args.delay)
         pages = []
