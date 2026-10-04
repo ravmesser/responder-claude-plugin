@@ -108,7 +108,7 @@ Match the user's request to a row. Many requests map to more than one area.
 <!-- BEGIN GENERATED OFFLINE ARTICLE INDEX -->
 ### Offline article corpus (generated)
 
-The complete local corpus contains **151 articles**, refreshed 2026-09-28.
+The complete local corpus contains **151 articles**, refreshed 2026-10-04.
 Read `references/articles/INDEX.md` to find an article by category or title, or search
 `references/articles/` with `rg`. These files are sufficient for answering without internet access.
 

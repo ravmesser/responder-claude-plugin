@@ -28,7 +28,7 @@ Action (פעולה): מה קורה בעקבות הטריגר במערכת אחר
 
 בחלון שייפתח:
 
-Connection Name: תנו שם ברור, למשל: Responder_Production_Account.בחלון ההגדרות:
+Connection Name: תנו שם ברור, למשל: Responder\_Production\_Account.בחלון ההגדרות:
 
 User Token: הדביקו את הקוד שהעתקתם מרב מסר.
 

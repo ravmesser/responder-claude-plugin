@@ -13,7 +13,7 @@
       "name": "rav-messer",
       "source": "./plugins/rav-messer",
       "description": "Offline Responder / Rav Messer knowledge base skill plus the hosted Responder MCP server.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Ynon Perek",
         "email": "ynon@hey.com"
