@@ -1,6 +1,6 @@
 # Offline Responder article catalog
 
-Generated from the official Responder knowledge base at 2026-10-11.
+Generated from the official Responder knowledge base at 2026-10-25.
 Search this directory with `rg -n "<Hebrew or English term>" references/articles/`.
 
 ## Categories
