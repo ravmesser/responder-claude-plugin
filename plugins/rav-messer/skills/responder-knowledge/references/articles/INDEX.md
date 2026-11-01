@@ -1,6 +1,6 @@
 # Offline Responder article catalog
 
-Generated from the official Responder knowledge base at 2026-10-25.
+Generated from the official Responder knowledge base at 2026-11-01.
 Search this directory with `rg -n "<Hebrew or English term>" references/articles/`.
 
 ## Categories
@@ -13,7 +13,7 @@ Search this directory with `rg -n "<Hebrew or English term>" references/articles
 - [טיפים ונושאים נוספים](#טיפים-ונושאים-נוספים) — 5 articles
 - [נמענים](#נמענים) — 14 articles
 - [סטטיסטיקה ודוחות](#סטטיסטיקה-ודוחות) — 2 articles
-- [רב מסר ומערכות חיצוניות](#רב-מסר-ומערכות-חיצוניות) — 18 articles
+- [רב מסר ומערכות חיצוניות](#רב-מסר-ומערכות-חיצוניות) — 19 articles
 - [רשימות](#רשימות) — 10 articles
 - [שליחת sms](#שליחת-sms) — 3 articles
 - [שליחת מיילים](#שליחת-מיילים) — 20 articles
@@ -142,6 +142,7 @@ Search this directory with `rg -n "<Hebrew or English term>" references/articles
 ## רב מסר ומערכות חיצוניות
 
 - [webhook (וובהוק)](webhook-וובהוק-77e608a8.md)
+- [איך יוצרים דף נחיתה בעזרת ה-MCP של רב מסר?](איך-יוצרים-דף-נחיתה-בעזרת-ה-mcp-של-רב-מסר-e08dda85.md)
 - [אפליקציית רב מסר - zapier](אפליקציית-רב-מסר-zapier-3d12a190.md)
 - [אפליקציית רב מסר – boost space](אפליקציית-רב-מסר-boost-space-784215d2.md)
 - [אפליקציית רב מסר- make](אפליקציית-רב-מסר-make-4483c457.md)
