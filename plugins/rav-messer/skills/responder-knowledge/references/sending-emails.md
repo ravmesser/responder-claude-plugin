@@ -38,6 +38,22 @@ Send the campaign to yourself/colleagues before the real send to check rendering
 Test variants (e.g. subject lines) on part of the list; the winner goes to the rest.
 - Article: [offline article](articles/איך-יוצרים-ניסוי-בדיוורים-a-b-test-8768fe4e.md)
 
+When the connected Responder MCP exposes `create_ab_test`, use it to prepare a
+standalone campaign draft. Pick `subject` for two or three subjects with one
+shared body, or `content` for a separate body per variant. Keep the subject and
+preheader identical in content mode when comparing only the bodies. Both modes
+use one list and one sender. Pass `sample_percentage` (10–90), `winner_policy`
+(`opens` or `clicks`), and a positive `winner_delay` with its unit. The platform
+ranks automatic winners by open or click event counts.
+
+Poll `get_async_tool_call_status` for `test_id` and `variant_ids`. Use
+`list_ab_tests` to find campaigns and `get_ab_test` to inspect a test, including
+a partial draft if creation failed and returned its ID. If the outcome is
+uncertain, check the existing drafts before creating another. Use `get_message`
+with a variant ID for its preview and message counters. Launch the A/B campaign
+from Responder's A/B testing screen. For a series, a Random decision with a
+different email on each branch gives a split with manual comparison.
+
 ## The editor (עבודה עם העורך)
 Same drag-and-drop editor builds forms, templates, landing pages, and emails. Note some
 elements/fonts are page-only and not email-safe (see `landing-pages.md`).
