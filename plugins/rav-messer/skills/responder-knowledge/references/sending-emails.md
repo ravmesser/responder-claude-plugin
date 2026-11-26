@@ -50,9 +50,19 @@ Poll `get_async_tool_call_status` for `test_id` and `variant_ids`. Use
 `list_ab_tests` to find campaigns and `get_ab_test` to inspect a test, including
 a partial draft if creation failed and returned its ID. If the outcome is
 uncertain, check the existing drafts before creating another. Use `get_message`
-with a variant ID for its preview and message counters. Launch the A/B campaign
-from Responder's A/B testing screen. For a series, a Random decision with a
-different email on each branch gives a split with manual comparison.
+with a variant ID for its preview and message counters.
+
+Use `update_ab_test` with the test ID and only the draft settings that should
+change. For example, set `winner_delay: 30` and `winner_delay_unit: "minutes"`
+to change the wait. Use `start_ab_test` with the test ID when the user requests
+a live launch. It uses the campaign's saved schedule and checks the sample size.
+An accepted request can send the automatic winner to the remaining audience.
+Check `get_ab_test` for progress. If the launch outcome is uncertain, inspect
+the campaign in Responder before taking further action. Use Responder's A/B
+testing screen when the connected MCP lacks the update or start tool.
+
+For a series, a Random decision with a different email on each branch gives
+a split with manual comparison.
 
 ## The editor (עבודה עם העורך)
 Same drag-and-drop editor builds forms, templates, landing pages, and emails. Note some
